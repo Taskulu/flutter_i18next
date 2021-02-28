@@ -1,12 +1,14 @@
 class Translator {
   final Map<dynamic, dynamic> decodedMap;
-  final String key;
+  final String key, defaultValue;
 
-  Translator(this.decodedMap, this.key);
+  Translator(this.decodedMap, this.key, {String defaultValue})
+      : this.defaultValue = defaultValue ?? key;
 
   String translate() {
     final lastSubKey = key.split('.').last;
-    return _subMap[lastSubKey];
+    final value = _subMap[lastSubKey];
+    return value is String ? value : defaultValue;
   }
 
   Map<dynamic, dynamic> get _subMap {

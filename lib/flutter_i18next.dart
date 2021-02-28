@@ -107,11 +107,12 @@ class FlutterI18n {
     return simpleTranslator.translate();
   }
 
-  static String t(BuildContext context, String key) {
+  static String t(BuildContext context, String key, {String defaultValue}) {
     final FlutterI18n currentInstance = _retrieveCurrentInstance(context);
     final translator = Translator(
       currentInstance.decodedMap,
       key,
+      defaultValue: defaultValue,
     );
     return translator.translate();
   }
