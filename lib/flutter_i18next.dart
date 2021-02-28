@@ -7,6 +7,7 @@ import 'package:flutter_i18next/loaders/translation_loader.dart';
 import 'package:flutter_i18next/models/loading_status.dart';
 import 'package:flutter_i18next/utils/plural_translator.dart';
 import 'package:flutter_i18next/utils/simple_translator.dart';
+import 'package:flutter_i18next/utils/translator.dart';
 import 'package:intl/intl.dart' as intl;
 
 import 'utils/message_printer.dart';
@@ -31,6 +32,7 @@ class FlutterI18n {
   Map<dynamic, dynamic> decodedMap;
 
   final _localeStream = StreamController<Locale>.broadcast();
+
   // ignore: close_sinks
   final _loadingStream = StreamController<LoadingStatus>.broadcast();
 
@@ -103,6 +105,15 @@ class FlutterI18n {
       },
     );
     return simpleTranslator.translate();
+  }
+
+  static String t(BuildContext context, String key) {
+    final FlutterI18n currentInstance = _retrieveCurrentInstance(context);
+    final translator = Translator(
+      currentInstance.decodedMap,
+      key,
+    );
+    return translator.translate();
   }
 
   /// Same as `get locale`, but this can be invoked from widgets
