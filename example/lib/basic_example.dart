@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_i18next/flutter_i18next.dart';
 import 'package:flutter_i18next/flutter_i18next_delegate.dart';
@@ -13,6 +12,12 @@ Future main() async {
         fallbackFile: 'en',
         basePath: 'assets/i18n',
         forcedLocale: Locale('es')),
+    interpolationOptions: InterpolationOptions(formatter: (value, format, locale) {
+      if (format == 'uppercase') {
+        return value.toString().toUpperCase();
+      }
+      return value;
+    }),
   );
   WidgetsFlutterBinding.ensureInitialized();
   await flutterI18nDelegate.load(null);
@@ -83,7 +88,8 @@ class MyHomeState extends State<MyHomePage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Text(FlutterI18n.t(context, 'label.main', params: {'user': 'Test'})),
+              Text(FlutterI18n.t(context, 'label.main',
+                  params: {'user': 'Test'})),
               I18nText("label.main",
                   translationParams: {"user": "Flutter lover"}),
               I18nPlural("clicked.times", clicked),
@@ -96,7 +102,7 @@ class MyHomeState extends State<MyHomePage> {
                       context, "button.label.clickMea",
                       fallbackKey: "button.label.clickMe"))),
               FlatButton(
-                key: Key('changeLanguage'),
+                  key: Key('changeLanguage'),
                   onPressed: () async {
                     await changeLanguage();
                     Scaffold.of(context).showSnackBar(SnackBar(

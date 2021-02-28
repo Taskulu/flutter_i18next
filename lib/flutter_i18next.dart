@@ -5,6 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_i18next/loaders/file_translation_loader.dart';
 import 'package:flutter_i18next/loaders/translation_loader.dart';
 import 'package:flutter_i18next/models/loading_status.dart';
+import 'package:flutter_i18next/utils/interpolation.dart';
 import 'package:flutter_i18next/utils/plural_translator.dart';
 import 'package:flutter_i18next/utils/simple_translator.dart';
 import 'package:flutter_i18next/utils/translator.dart';
@@ -20,6 +21,7 @@ export 'loaders/network_file_translation_loader.dart';
 export 'loaders/translation_loader.dart';
 export 'widgets/I18nPlural.dart';
 export 'widgets/I18nText.dart';
+export 'utils/interpolation.dart';
 
 typedef void MissingTranslationHandler(String key, Locale locale);
 
@@ -27,7 +29,7 @@ typedef void MissingTranslationHandler(String key, Locale locale);
 class FlutterI18n {
   TranslationLoader translationLoader;
   MissingTranslationHandler missingTranslationHandler;
-  String keySeparator;
+  final String keySeparator = '.';
 
   Map<dynamic, dynamic> decodedMap;
 
@@ -41,16 +43,18 @@ class FlutterI18n {
   Stream<bool> get isLoadedStream => loadingStream
       .map((loadingStatus) => loadingStatus == LoadingStatus.loaded);
 
+  final InterpolationOptions _interpolationOptions;
+
   FlutterI18n(
-    TranslationLoader translationLoader,
-    String keySeparator, {
+    TranslationLoader translationLoader, {
+    InterpolationOptions interpolationOptions,
     MissingTranslationHandler missingTranslationHandler,
-  }) {
+  }) : this._interpolationOptions =
+            interpolationOptions ?? InterpolationOptions() {
     this.translationLoader = translationLoader ?? FileTranslationLoader();
     this._loadingStream.add(LoadingStatus.notLoaded);
     this.missingTranslationHandler =
         missingTranslationHandler ?? (key, locale) {};
-    this.keySeparator = keySeparator ?? ".";
     MessagePrinter.setMustPrintMessage(!Foundation.kReleaseMode);
   }
 
@@ -108,12 +112,13 @@ class FlutterI18n {
   }
 
   static String t(BuildContext context, String key,
-      {String defaultValue, Map<String, String> params}) {
+      {String defaultValue, Map<String, dynamic> params}) {
     final FlutterI18n currentInstance = _retrieveCurrentInstance(context);
     final translator = Translator(
       currentInstance.decodedMap,
       key,
       defaultValue: defaultValue,
+      interpolation: currentInstance._interpolationOptions,
       params: params,
     );
     return translator.translate();

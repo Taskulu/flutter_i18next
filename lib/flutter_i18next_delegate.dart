@@ -2,25 +2,25 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_i18next/loaders/translation_loader.dart';
+import 'package:flutter_i18next/utils/interpolation.dart';
 import 'package:flutter_i18next/utils/message_printer.dart';
 
 import 'flutter_i18next.dart';
 
 /// Translation delegate that manage the new locale received from the framework
 class FlutterI18nDelegate extends LocalizationsDelegate<FlutterI18n> {
-  static FlutterI18n _translationObject;
+  final FlutterI18n _translationObject;
   Locale currentLocale;
 
-  FlutterI18nDelegate(
-      {translationLoader,
-      MissingTranslationHandler missingTranslationHandler,
-      String keySeparator = "."}) {
-    _translationObject = FlutterI18n(
-      translationLoader,
-      keySeparator,
-      missingTranslationHandler: missingTranslationHandler,
-    );
-  }
+  FlutterI18nDelegate({
+    translationLoader,
+    MissingTranslationHandler missingTranslationHandler,
+    InterpolationOptions interpolationOptions,
+  }) : _translationObject = FlutterI18n(
+          translationLoader,
+          interpolationOptions: interpolationOptions,
+          missingTranslationHandler: missingTranslationHandler,
+        );
 
   @override
   bool isSupported(final Locale locale) {

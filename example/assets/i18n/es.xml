@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <root>
     <label>
-        <main>Hola {{user}}!</main>
+        <main>Hola {{user, uppercase}}!</main>
     </label>
     <button>
         <label>

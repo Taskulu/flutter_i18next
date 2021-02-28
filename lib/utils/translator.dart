@@ -1,24 +1,41 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter_i18next/utils/interpolation.dart';
+
 class Translator {
+  final Locale locale;
+  final InterpolationOptions interpolation;
   final Map<dynamic, dynamic> decodedMap;
-  final Map<String, String> params;
+  final Map<String, dynamic> params;
   final String key, defaultValue;
 
-  Translator(this.decodedMap, this.key,
-      {String defaultValue, this.params = const {}})
-      : assert(key != null),
+  Translator(
+    this.decodedMap,
+    this.key, {
+    String defaultValue,
+    this.locale,
+    this.interpolation,
+    this.params = const {},
+  })  : assert(key != null),
         this.defaultValue = defaultValue ?? key;
 
   String translate() {
-    final rawValue = _rawValue;
-    return _getInterpolatedValue(rawValue);
+    return _interpolatedValue;
   }
 
-  String _getInterpolatedValue(String rawValue) {
-    String interpolatedValue = rawValue;
-    params.keys
-        .forEach((e) => interpolatedValue = interpolatedValue.replaceAll('{{$e}}', params[e]));
-    return interpolatedValue;
-  }
+  String get _interpolatedValue =>
+      _rawValue.splitMapJoin(interpolation.pattern, onMatch: (match) {
+        if (match is RegExpMatch) {
+          final value = params[match.namedGroup('variable')];
+          final format = match.namedGroup('format');
+
+          if (interpolation.formatter == null || format == null) {
+            return value;
+          }
+
+          return interpolation.formatter(value, format, locale);
+        }
+        return match.group(0);
+      });
 
   String get _rawValue {
     final lastSubKey = key.split('.').last;
