@@ -1,12 +1,12 @@
 import 'package:flutter/services.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter/widgets.dart';
-import 'package:flutter_i18n/loaders/decoders/base_decode_strategy.dart';
-import 'package:flutter_i18n/loaders/decoders/json_decode_strategy.dart';
-import 'package:flutter_i18n/loaders/decoders/xml_decode_strategy.dart';
-import 'package:flutter_i18n/loaders/decoders/yaml_decode_strategy.dart';
-import 'package:flutter_i18n/loaders/file_content.dart';
-import 'package:flutter_i18n/loaders/translation_loader.dart';
+import 'package:flutter_i18next/loaders/decoders/base_decode_strategy.dart';
+import 'package:flutter_i18next/loaders/decoders/json_decode_strategy.dart';
+import 'package:flutter_i18next/loaders/decoders/xml_decode_strategy.dart';
+import 'package:flutter_i18next/loaders/decoders/yaml_decode_strategy.dart';
+import 'package:flutter_i18next/loaders/file_content.dart';
+import 'package:flutter_i18next/loaders/translation_loader.dart';
 import "package:merge_map/merge_map.dart";
 
 import '../utils/message_printer.dart';

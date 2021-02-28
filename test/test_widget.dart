@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_i18n/flutter_i18n.dart';
+import 'package:flutter_i18next/flutter_i18next.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import './test_loader.dart';

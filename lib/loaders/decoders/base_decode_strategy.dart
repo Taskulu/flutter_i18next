@@ -1,4 +1,4 @@
-import 'package:flutter_i18n/loaders/file_content.dart';
+import 'package:flutter_i18next/loaders/file_content.dart';
 
 import '../../utils/message_printer.dart';
 

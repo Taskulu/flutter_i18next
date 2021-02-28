@@ -1,4 +1,4 @@
-import 'package:flutter_i18n/utils/message_printer.dart';
+import 'package:flutter_i18next/utils/message_printer.dart';
 
 import 'actions/ActionInterface.dart';
 import 'actions/DiffAction.dart';

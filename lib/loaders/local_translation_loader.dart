@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:flutter_i18n/loaders/file_translation_loader.dart';
+import 'package:flutter_i18next/loaders/file_translation_loader.dart';
 
 class LocalTranslationLoader extends FileTranslationLoader {
   LocalTranslationLoader(

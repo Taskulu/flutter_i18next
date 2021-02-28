@@ -1,8 +1,8 @@
 import 'package:flutter/services.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter/widgets.dart';
-import 'package:flutter_i18n/loaders/file_translation_loader.dart';
-import 'package:flutter_i18n/utils/message_printer.dart';
+import 'package:flutter_i18next/loaders/file_translation_loader.dart';
+import 'package:flutter_i18next/utils/message_printer.dart';
 
 /// Loads translations from separate files
 class NamespaceFileTranslationLoader extends FileTranslationLoader {

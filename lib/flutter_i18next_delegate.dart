@@ -1,10 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_i18n/loaders/translation_loader.dart';
-import 'package:flutter_i18n/utils/message_printer.dart';
+import 'package:flutter_i18next/loaders/translation_loader.dart';
+import 'package:flutter_i18next/utils/message_printer.dart';
 
-import 'flutter_i18n.dart';
+import 'flutter_i18next.dart';
 
 /// Translation delegate that manage the new locale received from the framework
 class FlutterI18nDelegate extends LocalizationsDelegate<FlutterI18n> {

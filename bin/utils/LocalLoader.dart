@@ -1,10 +1,10 @@
 import 'dart:io';
 
-import 'package:flutter_i18n/loaders/decoders/base_decode_strategy.dart';
-import 'package:flutter_i18n/loaders/decoders/json_decode_strategy.dart';
-import 'package:flutter_i18n/loaders/decoders/xml_decode_strategy.dart';
-import 'package:flutter_i18n/loaders/decoders/yaml_decode_strategy.dart';
-import 'package:flutter_i18n/loaders/file_content.dart';
+import 'package:flutter_i18next/loaders/decoders/base_decode_strategy.dart';
+import 'package:flutter_i18next/loaders/decoders/json_decode_strategy.dart';
+import 'package:flutter_i18next/loaders/decoders/xml_decode_strategy.dart';
+import 'package:flutter_i18next/loaders/decoders/yaml_decode_strategy.dart';
+import 'package:flutter_i18next/loaders/file_content.dart';
 import 'package:path/path.dart';
 
 class LocalLoader implements IFileContent {

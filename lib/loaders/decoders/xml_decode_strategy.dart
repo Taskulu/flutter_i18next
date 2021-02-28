@@ -1,4 +1,4 @@
-import 'package:flutter_i18n/loaders/decoders/json_decode_strategy.dart';
+import 'package:flutter_i18next/loaders/decoders/json_decode_strategy.dart';
 import 'package:xml2json/xml2json.dart';
 
 import './base_decode_strategy.dart';

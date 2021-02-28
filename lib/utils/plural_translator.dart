@@ -1,4 +1,4 @@
-import 'package:flutter_i18n/utils/simple_translator.dart';
+import 'package:flutter_i18next/utils/simple_translator.dart';
 
 /// Translator for plural values
 class PluralTranslator extends SimpleTranslator {
