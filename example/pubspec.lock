@@ -137,13 +137,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_i18n:
+  flutter_i18next:
     dependency: "direct main"
     description:
       path: ".."
       relative: true
     source: path
-    version: "0.21.0"
+    version: "0.1.0"
   flutter_localizations:
     dependency: transitive
     description: flutter

@@ -3,7 +3,7 @@ name: example
 dependencies:
   flutter:
     sdk: flutter
-  flutter_i18n:
+  flutter_i18next:
     path: ../
   cupertino_icons: ^0.1.2
   http:
