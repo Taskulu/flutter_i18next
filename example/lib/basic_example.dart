@@ -83,7 +83,7 @@ class MyHomeState extends State<MyHomePage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Text(FlutterI18n.t(context, 'label.main')),
+              Text(FlutterI18n.t(context, 'label.main', params: {'user': 'Test'})),
               I18nText("label.main",
                   translationParams: {"user": "Flutter lover"}),
               I18nPlural("clicked.times", clicked),
