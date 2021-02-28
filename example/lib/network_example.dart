@@ -65,9 +65,8 @@ class MyHomePage extends StatelessWidget {
                   return Text("isLoading: ${snapshot.data}");
                 },
               ),
-              I18nText(
-                "args.content",
-                child: Text(""),
+              Text(
+                FlutterI18n.t(context, "args.content"),
               ),
             ],
           ),

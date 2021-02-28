@@ -42,12 +42,13 @@ class TestWidgetPageState extends State<TestWidgetPage> {
           return Center(
             child: Column(
               children: <Widget>[
-                I18nText("keySingle"),
-                I18nPlural("keyPlural", 1, child: Text("")),
-                I18nPlural("keyPlural", 2),
-                I18nText("object.key1"),
-                I18nText("object"),
-                I18nText("object", fallbackKey: "fileName"),
+                Text(FlutterI18n.t(context, "keySingle")),
+                Text(FlutterI18n.plural(context, "keyPlural", 1)),
+                Text(FlutterI18n.plural(context, "keyPlural", 2)),
+                Text(FlutterI18n.t(context, "object.key1")),
+                Text(FlutterI18n.t(context, "object")),
+                Text(FlutterI18n.translate(context, "object",
+                    fallbackKey: "fileName")),
                 RaisedButton(
                   onPressed: () async {
                     var locale = FlutterI18n.currentLocale(context);

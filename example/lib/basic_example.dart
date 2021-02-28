@@ -90,9 +90,7 @@ class MyHomeState extends State<MyHomePage> {
             children: <Widget>[
               Text(FlutterI18n.t(context, 'label.main',
                   params: {'user': 'Test'})),
-              I18nText("label.main",
-                  translationParams: {"user": "Flutter lover"}),
-              I18nPlural("clicked.times", clicked),
+              Text(FlutterI18n.plural(context, "clicked.times", clicked)),
               FlatButton(
                   key: Key('incrementCounter'),
                   onPressed: () async {

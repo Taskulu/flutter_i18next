@@ -67,8 +67,8 @@ class MyHomeState extends State<MyHomePage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              I18nText("home.label.main", child: Text("")),
-              I18nText("home.missing", child: Text("")),
+              Text(FlutterI18n.t(context, "home.label.main")),
+              Text(FlutterI18n.t(context, "home.missing")),
               RaisedButton(
                   onPressed: () async {
                     await changeLanguage();
