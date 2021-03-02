@@ -110,7 +110,7 @@ class FlutterI18n {
   }
 
   static String t(BuildContext context, String key,
-      {String defaultValue, Map<String, dynamic> params}) {
+      {String defaultValue, Map<String, dynamic> params, int count}) {
     final FlutterI18n currentInstance = _retrieveCurrentInstance(context);
     final translator = Translator(
       currentInstance.decodedMap,
@@ -118,6 +118,7 @@ class FlutterI18n {
       defaultValue: defaultValue,
       interpolation: currentInstance._interpolationOptions,
       params: params,
+      count: count,
     );
     return translator.translate();
   }

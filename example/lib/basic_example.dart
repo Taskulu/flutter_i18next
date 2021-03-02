@@ -90,6 +90,7 @@ class MyHomeState extends State<MyHomePage> {
             children: <Widget>[
               Text(FlutterI18n.t(context, 'label.main',
                   params: {'user': 'Test'})),
+              Text(FlutterI18n.t(context, "clicked.times", count: clicked)),
               Text(FlutterI18n.plural(context, "clicked.times", clicked)),
               FlatButton(
                   key: Key('incrementCounter'),

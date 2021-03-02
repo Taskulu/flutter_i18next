@@ -11,8 +11,7 @@
         <toastMessage>Hiciste clic en el botón!</toastMessage>
     </button>
     <clicked>
-        <times-0>Hiciste clic {times} veces!</times-0>
-        <times-1>Hiciste clic {time} vez!</times-1>
-        <times-2>Hiciste clic {times} veces!</times-2>
+        <times>Hiciste clic {{count}} vez!</times>
+        <times_plural>Hiciste clic {{count}} veces!</times_plural>
     </clicked>
 </root>
