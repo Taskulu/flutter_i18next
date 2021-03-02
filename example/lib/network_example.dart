@@ -53,7 +53,7 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(FlutterI18n.translate(context, "args.title"))),
+      appBar: AppBar(title: Text(FlutterI18n.t(context, "args.title"))),
       body: Builder(builder: (BuildContext context) {
         return Center(
           child: Column(

@@ -12,7 +12,8 @@ Future main() async {
         fallbackFile: 'en',
         basePath: 'assets/i18n',
         forcedLocale: Locale('es')),
-    interpolationOptions: InterpolationOptions(formatter: (value, format, locale) {
+    interpolationOptions:
+        InterpolationOptions(formatter: (value, format, locale) {
       if (format == 'uppercase') {
         return value.toString().toUpperCase();
       }
@@ -82,7 +83,7 @@ class MyHomeState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(FlutterI18n.translate(context, "title"))),
+      appBar: AppBar(title: Text(FlutterI18n.t(context, "title"))),
       body: Builder(builder: (BuildContext context) {
         return Center(
           child: Column(
@@ -91,26 +92,22 @@ class MyHomeState extends State<MyHomePage> {
               Text(FlutterI18n.t(context, 'label.main',
                   params: {'user': 'Test'})),
               Text(FlutterI18n.t(context, "clicked.times", count: clicked)),
-              Text(FlutterI18n.plural(context, "clicked.times", clicked)),
               FlatButton(
                   key: Key('incrementCounter'),
                   onPressed: () async {
                     incrementCounter();
                   },
-                  child: Text(FlutterI18n.translate(
-                      context, "button.label.clickMea",
-                      fallbackKey: "button.label.clickMe"))),
+                  child: Text(FlutterI18n.t(context, "button.label.clickMe"))),
               FlatButton(
                   key: Key('changeLanguage'),
                   onPressed: () async {
                     await changeLanguage();
                     Scaffold.of(context).showSnackBar(SnackBar(
-                      content: Text(FlutterI18n.translate(
-                          context, "button.toastMessage")),
+                      content:
+                          Text(FlutterI18n.t(context, "button.toastMessage")),
                     ));
                   },
-                  child: Text(
-                      FlutterI18n.translate(context, "button.label.language")))
+                  child: Text(FlutterI18n.t(context, "button.label.language")))
             ],
           ),
         );

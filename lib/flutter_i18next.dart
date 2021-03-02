@@ -6,8 +6,6 @@ import 'package:flutter_i18next/loaders/file_translation_loader.dart';
 import 'package:flutter_i18next/loaders/translation_loader.dart';
 import 'package:flutter_i18next/models/loading_status.dart';
 import 'package:flutter_i18next/utils/interpolation.dart';
-import 'package:flutter_i18next/utils/plural_translator.dart';
-import 'package:flutter_i18next/utils/simple_translator.dart';
 import 'package:flutter_i18next/utils/translator.dart';
 import 'package:intl/intl.dart' as intl;
 
@@ -68,22 +66,6 @@ class FlutterI18n {
   /// The locale used for the translation logic
   get locale => this.translationLoader.locale;
 
-  /// Facade method to the plural translation logic
-  static String plural(final BuildContext context, final String translationKey,
-      final int pluralValue) {
-    final FlutterI18n currentInstance = _retrieveCurrentInstance(context);
-    final PluralTranslator pluralTranslator = PluralTranslator(
-      currentInstance.decodedMap,
-      translationKey,
-      currentInstance.keySeparator,
-      pluralValue,
-      missingKeyTranslationHandler: (key) {
-        currentInstance.missingTranslationHandler(key, currentInstance.locale);
-      },
-    );
-    return pluralTranslator.plural();
-  }
-
   /// Facade method to force the load of a new locale
   static Future refresh(
       final BuildContext context, final Locale forcedLocale) async {
@@ -92,23 +74,7 @@ class FlutterI18n {
     await currentInstance.load();
   }
 
-  /// Facade method to the simple translation logic
-  static String translate(final BuildContext context, final String key,
-      {final String fallbackKey, final Map<String, String> translationParams}) {
-    final FlutterI18n currentInstance = _retrieveCurrentInstance(context);
-    final SimpleTranslator simpleTranslator = SimpleTranslator(
-      currentInstance.decodedMap,
-      key,
-      currentInstance.keySeparator,
-      fallbackKey: fallbackKey,
-      translationParams: translationParams,
-      missingKeyTranslationHandler: (key) {
-        currentInstance.missingTranslationHandler(key, currentInstance.locale);
-      },
-    );
-    return simpleTranslator.translate();
-  }
-
+  /// Facade method to translation
   static String t(BuildContext context, String key,
       {String defaultValue, Map<String, dynamic> params, int count}) {
     final FlutterI18n currentInstance = _retrieveCurrentInstance(context);
