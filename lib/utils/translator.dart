@@ -4,29 +4,42 @@ import 'package:flutter_i18next/utils/interpolation.dart';
 class Translator {
   final Locale locale;
   final InterpolationOptions interpolation;
-  final Map<dynamic, dynamic> decodedMap;
+  final Map<dynamic, dynamic> map;
   final Map<String, dynamic> _params;
-  final String key, defaultValue;
+  final List<String> keys;
+  final String defaultValue;
   final int count;
 
   Translator(
-    this.decodedMap,
-    this.key, {
-    String defaultValue,
+    Map<dynamic, dynamic> map,
+    String key, {
     this.locale,
-    this.interpolation,
     this.count,
+    InterpolationOptions interpolation,
+    List<String> fallbackKeys,
+    String defaultValue,
     Map<String, dynamic> params,
   })  : assert(key != null),
+        this.map = map ?? {},
+        this.keys = [...(fallbackKeys ?? []), key],
         this.defaultValue = defaultValue ?? key,
-        this._params = (params ?? {})..putIfAbsent('count', () => count);
+        this._params = (params ?? {})..putIfAbsent('count', () => count),
+        this.interpolation = interpolation ?? InterpolationOptions();
 
   String translate() {
-    return _interpolatedValue;
+    String rawValue;
+    for (final key in keys) {
+      rawValue = _getRawValue(key);
+      if (rawValue != null) {
+        break;
+      }
+    }
+    rawValue ??= defaultValue;
+    return _interpolateValue(rawValue);
   }
 
-  String get _interpolatedValue =>
-      _rawValue.splitMapJoin(interpolation.pattern, onMatch: (match) {
+  String _interpolateValue(String value) =>
+      value.splitMapJoin(interpolation.pattern, onMatch: (match) {
         if (match is RegExpMatch) {
           final value = _params[match.namedGroup('variable')];
           final format = match.namedGroup('format');
@@ -40,8 +53,8 @@ class Translator {
         return match.group(0);
       });
 
-  String get _rawValue {
-    final subMap = _subMap;
+  String _getRawValue(String key) {
+    final subMap = _getSubMap(key);
     var lastSubKey = key.split('.').last;
     if (count != null && count != 1) {
       final lastSubKeyPlural = lastSubKey + '_plural';
@@ -50,12 +63,12 @@ class Translator {
       }
     }
     final rawValue = subMap[lastSubKey];
-    return rawValue is String ? rawValue : defaultValue;
+    return rawValue is String ? rawValue : null;
   }
 
-  Map<dynamic, dynamic> get _subMap {
+  Map<dynamic, dynamic> _getSubMap(String key) {
     final subKeys = key.split('.')..removeLast();
-    Map<dynamic, dynamic> subMap = decodedMap ?? {};
+    Map<dynamic, dynamic> subMap = map;
     subKeys.forEach((e) => subMap = subMap[e] ?? {});
     return subMap;
   }

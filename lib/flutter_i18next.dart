@@ -75,12 +75,19 @@ class FlutterI18n {
   }
 
   /// Facade method to translation
-  static String t(BuildContext context, String key,
-      {String defaultValue, Map<String, dynamic> params, int count}) {
+  static String t(
+    BuildContext context,
+    String key, {
+    List<String> fallbackKeys,
+    String defaultValue,
+    Map<String, dynamic> params,
+    int count,
+  }) {
     final FlutterI18n currentInstance = _retrieveCurrentInstance(context);
     final translator = Translator(
       currentInstance.decodedMap,
       key,
+      fallbackKeys: fallbackKeys,
       defaultValue: defaultValue,
       interpolation: currentInstance._interpolationOptions,
       params: params,
