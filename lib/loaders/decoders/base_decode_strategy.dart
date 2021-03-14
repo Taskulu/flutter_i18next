@@ -1,7 +1,5 @@
 import 'package:flutter_i18next/loaders/file_content.dart';
 
-import '../../utils/message_printer.dart';
-
 /// Base decode strategy to convert a text file to a Map
 abstract class BaseDecodeStrategy {
   /// The extension of the file to decode
@@ -16,12 +14,8 @@ abstract class BaseDecodeStrategy {
     Map returnValue;
     try {
       final String content = await loadFileContent(fileName, fileContent);
-      MessagePrinter.info(
-          "${fileExtension.toUpperCase()} file loaded for $fileName");
       returnValue = decodeContent(content);
     } catch (e) {
-      MessagePrinter.debug(
-          "Unable to load ${fileExtension.toUpperCase()} file for $fileName");
     }
     return returnValue;
   }

@@ -3,6 +3,8 @@ name: example
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
   flutter_i18next:
     path: ../
   cupertino_icons: ^0.1.2
@@ -20,8 +22,6 @@ flutter:
   uses-material-design: true
   assets:
     - assets/i18n/
-    - assets/i18n_namespace/en/
-    - assets/i18n_namespace/ua/
 
 environment:
   sdk: '>=1.19.0 <3.0.0'

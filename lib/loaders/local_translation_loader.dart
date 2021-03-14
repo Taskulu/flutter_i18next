@@ -6,12 +6,10 @@ class LocalTranslationLoader extends FileTranslationLoader {
   LocalTranslationLoader(
       {basePath = "assets/flutter_i18n",
       useCountryCode = false,
-      forcedLocale,
       decodeStrategies})
       : super(
             basePath: basePath,
             useCountryCode: useCountryCode,
-            forcedLocale: forcedLocale,
             decodeStrategies: decodeStrategies);
 
   /// Load the file using the File class

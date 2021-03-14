@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/android.iml" filepath="$PROJECT_DIR$/.idea/modules/android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/android.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/android.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/877526329/android.path_provider.iml" filepath="$PROJECT_DIR$/.idea/modules/877526329/android.path_provider.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/2079285458/android.path_provider_linux.iml" filepath="$PROJECT_DIR$/.idea/modules/2079285458/android.path_provider_linux.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/2125692826/android.path_provider_macos.iml" filepath="$PROJECT_DIR$/.idea/modules/2125692826/android.path_provider_macos.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-2072986651/android.path_provider_windows.iml" filepath="$PROJECT_DIR$/.idea/modules/-2072986651/android.path_provider_windows.iml" />
+    </modules>
+  </component>
+</project>
