@@ -1,5 +1,5 @@
 # flutter_i18next
-A package to bring i18next support for Flutter! This is heavily based on [flutter_i18n](https://jsfiddle.net/sm9wgLze) but with lots of modification and simplifications.
+A package to bring i18next support for Flutter! This is heavily based on [flutter_i18n](https://github.com/ilteoood/flutter_i18n) but with lots of modification and simplifications.
 
 ---
 
