@@ -73,7 +73,7 @@ class MyHomeState extends State<MyHomePage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text(I18Next.t(context, 'label.main', params: {'user': 'Test'})),
-              Text(I18Next.t(context, 'clicked.times', count: clicked)),
+              Text(context.t('clicked.times', count: clicked)),
               TextButton(
                   onPressed: () async {
                     incrementCounter();
@@ -81,8 +81,7 @@ class MyHomeState extends State<MyHomePage> {
                   child: Text(I18Next.t(context, 'button.label.clickMe'))),
               TextButton(
                   onPressed: () async {
-                    final i18next = I18NextLocaleBuilder.of(context);
-                    i18next?.locale = i18next.locale == Locale('en')
+                    context.locale = context.locale == Locale('en')
                         ? Locale('fa')
                         : Locale('en');
                   },
