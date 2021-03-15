@@ -22,7 +22,7 @@ class Translator {
   })  : this._map = map ?? {},
         this._keys = [...(fallbackKeys ?? []), key],
         this._defaultValue = defaultValue ?? key,
-        this._params = (params ?? {})..putIfAbsent('count', () => count),
+        this._params = (params ?? {})..['count'] = count,
         this._interpolation = interpolation ?? InterpolationOptions();
 
   String translate() {
@@ -40,7 +40,13 @@ class Translator {
   String _interpolateValue(String value) =>
       value.splitMapJoin(_interpolation.pattern, onMatch: (match) {
         if (match is RegExpMatch) {
-          final value = _params[match.namedGroup('variable')!];
+          final variable = match.namedGroup('variable');
+
+          if(!_params.containsKey(variable)){
+            return match.group(0)!;
+          }
+
+          final value = _params[variable];
           final format = match.namedGroup('format');
 
           if (_interpolation.formatter == null || format == null) {
@@ -68,7 +74,14 @@ class Translator {
   Map<dynamic, dynamic> _getSubMap(String key) {
     final subKeys = key.split('.')..removeLast();
     Map<dynamic, dynamic> subMap = _map;
-    subKeys.forEach((e) => subMap = subMap[e] ?? {});
+    subKeys.forEach((e) {
+      final value = subMap[e] ?? {};
+      if (value is Map<dynamic, dynamic>) {
+        subMap = value;
+      } else {
+        subMap = {};
+      }
+    });
     return subMap;
   }
 }
