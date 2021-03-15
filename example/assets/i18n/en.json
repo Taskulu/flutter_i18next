@@ -1,0 +1,15 @@
+{
+  "label": {
+    "main": "Hello  {{user, uppercase}}!"
+  },
+  "button": {
+    "label": {
+      "clickMe": "Click here",
+      "language": "Change language"
+    }
+  },
+  "clicked": {
+    "times": "You clicked {{count}} time!",
+    "times_plural": "You clicked {{count}} times!"
+  }
+}

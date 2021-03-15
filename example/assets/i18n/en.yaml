@@ -2,12 +2,13 @@ title: "Test app"
 
 # With yaml, you can also comment your translations
 label:
-  main: "Hello {{user}}!"
+  main: "Hello  {{user, uppercase}}!"
 
 # Objects can be many levels deep
 button:
   label:
     clickMe: "Click here"
+    language: "Change Language"
 
 clicked:
   times: "You clicked {{count}} time!"

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<root>
+    <label>
+        <main>سلام {{user, uppercase}}!</main>
+    </label>
+    <button>
+        <label>
+            <clickMe>اینجا کلیک کنید</clickMe>
+            <language>تغییر زبان</language>
+        </label>
+    </button>
+    <clicked>
+        <times>شما {{count}} بار کلیک کردید!</times>
+        <times_plural>شما {{count}} بار کلیک کردید!</times_plural>
+    </clicked>
+</root>

@@ -9,6 +9,7 @@ export 'loaders/file_translation_loader.dart';
 export 'loaders/network_file_translation_loader.dart';
 export 'loaders/translation_loader.dart';
 export 'utils/interpolation.dart';
+export 'widgets/i18next_locale_builder.dart';
 
 enum LoadingStatus { notLoaded, loading, loaded }
 
