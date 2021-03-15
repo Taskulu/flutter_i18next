@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter_i18next/utils/interpolation.dart';
+import 'package:flutter_i18next/utils/interpolation_options.dart';
 import 'i18next.dart';
 
 class I18NextDelegate extends LocalizationsDelegate<I18Next> {

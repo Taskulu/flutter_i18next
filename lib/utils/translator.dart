@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_i18next/utils/interpolation.dart';
+import 'package:flutter_i18next/utils/interpolation_options.dart';
 
 class Translator {
   final Locale locale;

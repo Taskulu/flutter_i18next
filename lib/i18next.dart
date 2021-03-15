@@ -2,14 +2,14 @@ import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_i18next/loaders/file_translation_loader.dart';
 import 'package:flutter_i18next/loaders/translation_loader.dart';
-import 'package:flutter_i18next/utils/interpolation.dart';
+import 'package:flutter_i18next/utils/interpolation_options.dart';
 import 'package:flutter_i18next/utils/translator.dart';
 import 'package:flutter_i18next/widgets/i18next_locale_builder.dart';
 export 'i18next_delegate.dart';
 export 'loaders/file_translation_loader.dart';
 export 'loaders/network_file_translation_loader.dart';
 export 'loaders/translation_loader.dart';
-export 'utils/interpolation.dart';
+export 'utils/interpolation_options.dart';
 export 'widgets/i18next_locale_builder.dart';
 
 enum LoadingStatus { notLoaded, loading, loaded }
