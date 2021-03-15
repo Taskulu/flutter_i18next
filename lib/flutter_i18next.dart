@@ -13,38 +13,32 @@ export 'utils/interpolation.dart';
 
 enum LoadingStatus { notLoaded, loading, loaded }
 
-/// Facade used to hide the loading and translations logic
 class FlutterI18Next {
-  TranslationLoader translationLoader;
-  final String keySeparator = '.';
+  final Locale _locale;
+  final TranslationLoader _translationLoader;
+  final InterpolationOptions _interpolationOptions;
+  final _loadingStream = StreamController<LoadingStatus>.broadcast();
 
   Map<dynamic, dynamic> decodedMap;
-
-  final _loadingStream = StreamController<LoadingStatus>.broadcast();
 
   Stream<LoadingStatus> get loadingStream => _loadingStream.stream;
 
   Stream<bool> get isLoadedStream => loadingStream
       .map((loadingStatus) => loadingStatus == LoadingStatus.loaded);
 
-  final InterpolationOptions _interpolationOptions;
-
-  final Locale _locale;
-
   FlutterI18Next(
     this._locale,
     TranslationLoader translationLoader, {
     InterpolationOptions interpolationOptions,
-  }) : this._interpolationOptions =
-            interpolationOptions ?? InterpolationOptions() {
-    this.translationLoader = translationLoader ?? FileTranslationLoader();
+  })  : this._interpolationOptions =
+            interpolationOptions ?? InterpolationOptions(),
+        this._translationLoader = translationLoader ?? FileTranslationLoader() {
     this._loadingStream.add(LoadingStatus.notLoaded);
   }
 
-  /// Used to load the locale translation file
   Future<bool> load() async {
     this._loadingStream.add(LoadingStatus.loading);
-    decodedMap = await translationLoader.load(_locale);
+    decodedMap = await _translationLoader.load(_locale);
     this._loadingStream.add(LoadingStatus.loaded);
     return true;
   }
@@ -53,7 +47,6 @@ class FlutterI18Next {
     _loadingStream.close();
   }
 
-  /// Facade method to translation
   static String t(
     BuildContext context,
     String key, {

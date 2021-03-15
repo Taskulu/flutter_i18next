@@ -11,9 +11,7 @@ class NetworkFileTranslationLoader extends FileTranslationLoader {
   final Uri baseUri;
 
   NetworkFileTranslationLoader(
-      {@required this.baseUri,
-      useCountryCode = false,
-      decodeStrategies})
+      {@required this.baseUri, useCountryCode = false, decodeStrategies})
       : super(
             useCountryCode: useCountryCode,
             decodeStrategies: decodeStrategies) {

@@ -3,12 +3,12 @@ import 'package:flutter_i18next/utils/interpolation.dart';
 
 class Translator {
   final Locale locale;
-  final InterpolationOptions interpolation;
-  final Map<dynamic, dynamic> map;
-  final Map<String, dynamic> _params;
-  final List<String> keys;
-  final String defaultValue;
   final int count;
+  final InterpolationOptions _interpolation;
+  final Map<dynamic, dynamic> _map;
+  final Map<String, dynamic> _params;
+  final List<String> _keys;
+  final String _defaultValue;
 
   Translator(
     Map<dynamic, dynamic> map,
@@ -20,35 +20,35 @@ class Translator {
     String defaultValue,
     Map<String, dynamic> params,
   })  : assert(key != null),
-        this.map = map ?? {},
-        this.keys = [...(fallbackKeys ?? []), key],
-        this.defaultValue = defaultValue ?? key,
+        this._map = map ?? {},
+        this._keys = [...(fallbackKeys ?? []), key],
+        this._defaultValue = defaultValue ?? key,
         this._params = (params ?? {})..putIfAbsent('count', () => count),
-        this.interpolation = interpolation ?? InterpolationOptions();
+        this._interpolation = interpolation ?? InterpolationOptions();
 
   String translate() {
     String rawValue;
-    for (final key in keys) {
+    for (final key in _keys) {
       rawValue = _getRawValue(key);
       if (rawValue != null) {
         break;
       }
     }
-    rawValue ??= defaultValue;
+    rawValue ??= _defaultValue;
     return _interpolateValue(rawValue);
   }
 
   String _interpolateValue(String value) =>
-      value.splitMapJoin(interpolation.pattern, onMatch: (match) {
+      value.splitMapJoin(_interpolation.pattern, onMatch: (match) {
         if (match is RegExpMatch) {
           final value = _params[match.namedGroup('variable')];
           final format = match.namedGroup('format');
 
-          if (interpolation.formatter == null || format == null) {
+          if (_interpolation.formatter == null || format == null) {
             return value.toString();
           }
 
-          return interpolation.formatter(value, format, locale);
+          return _interpolation.formatter(value, format, locale);
         }
         return match.group(0);
       });
@@ -68,7 +68,7 @@ class Translator {
 
   Map<dynamic, dynamic> _getSubMap(String key) {
     final subKeys = key.split('.')..removeLast();
-    Map<dynamic, dynamic> subMap = map;
+    Map<dynamic, dynamic> subMap = _map;
     subKeys.forEach((e) => subMap = subMap[e] ?? {});
     return subMap;
   }

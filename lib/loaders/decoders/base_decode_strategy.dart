@@ -15,8 +15,7 @@ abstract class BaseDecodeStrategy {
     try {
       final String content = await loadFileContent(fileName, fileContent);
       returnValue = decodeContent(content);
-    } catch (e) {
-    }
+    } catch (e) {}
     return returnValue;
   }
 

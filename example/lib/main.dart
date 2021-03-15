@@ -69,7 +69,8 @@ class MyHomeState extends State<MyHomePage> {
                   onPressed: () async {
                     incrementCounter();
                   },
-                  child: Text(FlutterI18Next.t(context, "button.label.clickMe"))),
+                  child:
+                      Text(FlutterI18Next.t(context, "button.label.clickMe"))),
             ],
           ),
         );
