@@ -1,15 +1,15 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18next/utils/interpolation.dart';
-import 'flutter_i18next.dart';
+import 'i18next.dart';
 
-class FlutterI18NextDelegate extends LocalizationsDelegate<FlutterI18Next> {
+class I18NextDelegate extends LocalizationsDelegate<I18Next> {
   final InterpolationOptions? interpolationOptions;
   final TranslationLoader? translationLoader;
   Locale? _currentLocale;
-  FlutterI18Next? _lastTranslationObject;
+  I18Next? _lastTranslationObject;
 
-  FlutterI18NextDelegate({
+  I18NextDelegate({
     this.translationLoader,
     this.interpolationOptions,
   });
@@ -20,10 +20,10 @@ class FlutterI18NextDelegate extends LocalizationsDelegate<FlutterI18Next> {
   }
 
   @override
-  Future<FlutterI18Next> load(Locale locale) async {
+  Future<I18Next> load(Locale locale) async {
     _currentLocale = locale;
     _lastTranslationObject?.dispose();
-    _lastTranslationObject = FlutterI18Next(
+    _lastTranslationObject = I18Next(
       locale,
       translationLoader,
       interpolationOptions: interpolationOptions,
@@ -33,7 +33,7 @@ class FlutterI18NextDelegate extends LocalizationsDelegate<FlutterI18Next> {
   }
 
   @override
-  bool shouldReload(final FlutterI18NextDelegate old) {
+  bool shouldReload(final I18NextDelegate old) {
     return this._currentLocale == null ||
         this._currentLocale == old._currentLocale;
   }

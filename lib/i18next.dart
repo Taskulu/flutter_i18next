@@ -4,7 +4,7 @@ import 'package:flutter_i18next/loaders/file_translation_loader.dart';
 import 'package:flutter_i18next/loaders/translation_loader.dart';
 import 'package:flutter_i18next/utils/interpolation.dart';
 import 'package:flutter_i18next/utils/translator.dart';
-export 'flutter_i18next_delegate.dart';
+export 'i18next_delegate.dart';
 export 'loaders/file_translation_loader.dart';
 export 'loaders/network_file_translation_loader.dart';
 export 'loaders/translation_loader.dart';
@@ -12,7 +12,7 @@ export 'utils/interpolation.dart';
 
 enum LoadingStatus { notLoaded, loading, loaded }
 
-class FlutterI18Next {
+class I18Next {
   final Locale _locale;
   final TranslationLoader _translationLoader;
   final InterpolationOptions _interpolationOptions;
@@ -25,7 +25,7 @@ class FlutterI18Next {
   Stream<bool> get isLoadedStream => loadingStream
       .map((loadingStatus) => loadingStatus == LoadingStatus.loaded);
 
-  FlutterI18Next(
+  I18Next(
     this._locale,
     TranslationLoader? translationLoader, {
     InterpolationOptions? interpolationOptions,
@@ -54,7 +54,7 @@ class FlutterI18Next {
     Map<String, dynamic>? params,
     int? count,
   }) {
-    final FlutterI18Next currentInstance = _retrieveCurrentInstance(context)!;
+    final I18Next currentInstance = _retrieveCurrentInstance(context)!;
     final translator = Translator(
       currentInstance.decodedMap,
       key,
@@ -68,8 +68,8 @@ class FlutterI18Next {
     return translator.translate();
   }
 
-  static FlutterI18Next? _retrieveCurrentInstance(BuildContext context) {
-    return Localizations.of<FlutterI18Next>(context, FlutterI18Next);
+  static I18Next? _retrieveCurrentInstance(BuildContext context) {
+    return Localizations.of<I18Next>(context, I18Next);
   }
 
   /// Used to retrieve the loading status stream

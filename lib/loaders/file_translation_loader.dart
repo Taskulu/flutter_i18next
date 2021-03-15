@@ -17,7 +17,7 @@ class FileTranslationLoader extends TranslationLoader implements IFileContent {
   final List<BaseDecodeStrategy> _decodeStrategies;
 
   FileTranslationLoader(
-      {this.basePath = "assets/flutter_i18n",
+      {this.basePath = "assets/i18next",
       this.useCountryCode = false,
       decodeStrategies})
       : this._decodeStrategies = decodeStrategies ??

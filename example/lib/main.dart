@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_i18next/flutter_i18next.dart';
+import 'package:flutter_i18next/i18next.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 Future main() async {
@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
       ),
       home: MyHomePage(),
       localizationsDelegates: [
-        FlutterI18NextDelegate(
+        I18NextDelegate(
           translationLoader: FileTranslationLoader(
             useCountryCode: false,
             basePath: 'assets/i18n',
@@ -56,21 +56,21 @@ class MyHomeState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(FlutterI18Next.t(context, "title"))),
+      appBar: AppBar(title: Text(I18Next.t(context, "title"))),
       body: Builder(builder: (BuildContext context) {
         return Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Text(FlutterI18Next.t(context, 'label.main',
+              Text(I18Next.t(context, 'label.main',
                   params: {'user': 'Test'})),
-              Text(FlutterI18Next.t(context, "clicked.times", count: clicked)),
+              Text(I18Next.t(context, "clicked.times", count: clicked)),
               TextButton(
                   onPressed: () async {
                     incrementCounter();
                   },
                   child:
-                      Text(FlutterI18Next.t(context, "button.label.clickMe"))),
+                      Text(I18Next.t(context, "button.label.clickMe"))),
             ],
           ),
         );
