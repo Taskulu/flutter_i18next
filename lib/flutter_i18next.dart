@@ -6,7 +6,6 @@ import 'package:flutter_i18next/utils/interpolation.dart';
 import 'package:flutter_i18next/utils/translator.dart';
 export 'flutter_i18next_delegate.dart';
 export 'loaders/file_translation_loader.dart';
-export 'loaders/namespace_file_translation_loader.dart';
 export 'loaders/network_file_translation_loader.dart';
 export 'loaders/translation_loader.dart';
 export 'utils/interpolation.dart';
@@ -19,7 +18,7 @@ class FlutterI18Next {
   final InterpolationOptions _interpolationOptions;
   final _loadingStream = StreamController<LoadingStatus>.broadcast();
 
-  Map<dynamic, dynamic> decodedMap;
+  Map<dynamic, dynamic>? decodedMap;
 
   Stream<LoadingStatus> get loadingStream => _loadingStream.stream;
 
@@ -28,8 +27,8 @@ class FlutterI18Next {
 
   FlutterI18Next(
     this._locale,
-    TranslationLoader translationLoader, {
-    InterpolationOptions interpolationOptions,
+    TranslationLoader? translationLoader, {
+    InterpolationOptions? interpolationOptions,
   })  : this._interpolationOptions =
             interpolationOptions ?? InterpolationOptions(),
         this._translationLoader = translationLoader ?? FileTranslationLoader() {
@@ -50,15 +49,16 @@ class FlutterI18Next {
   static String t(
     BuildContext context,
     String key, {
-    List<String> fallbackKeys,
-    String defaultValue,
-    Map<String, dynamic> params,
-    int count,
+    List<String>? fallbackKeys,
+    String? defaultValue,
+    Map<String, dynamic>? params,
+    int? count,
   }) {
-    final FlutterI18Next currentInstance = _retrieveCurrentInstance(context);
+    final FlutterI18Next currentInstance = _retrieveCurrentInstance(context)!;
     final translator = Translator(
       currentInstance.decodedMap,
       key,
+      locale: currentInstance._locale,
       fallbackKeys: fallbackKeys,
       defaultValue: defaultValue,
       interpolation: currentInstance._interpolationOptions,
@@ -68,18 +68,18 @@ class FlutterI18Next {
     return translator.translate();
   }
 
-  static FlutterI18Next _retrieveCurrentInstance(BuildContext context) {
+  static FlutterI18Next? _retrieveCurrentInstance(BuildContext context) {
     return Localizations.of<FlutterI18Next>(context, FlutterI18Next);
   }
 
   /// Used to retrieve the loading status stream
   static Stream<LoadingStatus> retrieveLoadingStream(
       final BuildContext context) {
-    return _retrieveCurrentInstance(context).loadingStream;
+    return _retrieveCurrentInstance(context)!.loadingStream;
   }
 
   /// Used to check if the translation file is still loading
   static Stream<bool> retrieveLoadedStream(final BuildContext context) {
-    return _retrieveCurrentInstance(context).isLoadedStream;
+    return _retrieveCurrentInstance(context)!.isLoadedStream;
   }
 }

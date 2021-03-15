@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_i18next/flutter_i18next.dart';
 import 'package:flutter_i18next/utils/translator.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
+import 'package:mocktail/mocktail.dart';
 
 abstract class TestFormatter {
   String call(dynamic value, String format, Locale locale);
@@ -11,11 +11,9 @@ abstract class TestFormatter {
 class MockFormatter extends Mock implements TestFormatter {}
 
 void main() {
-  test('should throw assertion error if key is null', () {
-    expect(() => Translator({}, null), throwsAssertionError);
-  });
-
   group('translate', () {
+    final tLocale = Locale('en');
+
     group('accessing key', () {
       final map = {
         "key": "value of key",
@@ -24,30 +22,35 @@ void main() {
 
       group('normal key', () {
         test('given a valid key', () {
-          expect(Translator(map, 'key').translate(), 'value of key');
+          expect(Translator(map, 'key', locale: tLocale).translate(),
+              'value of key');
         });
 
         test('given a invalid key', () {
-          expect(Translator(map, 'test-key').translate(), 'test-key');
+          expect(Translator(map, 'test-key', locale: tLocale).translate(),
+              'test-key');
         });
       });
 
       group('deep key', () {
         test('given a valid deep key', () {
-          expect(
-              Translator(map, 'look.deep').translate(), 'value of look deep');
+          expect(Translator(map, 'look.deep', locale: tLocale).translate(),
+              'value of look deep');
         });
 
         test('given a key with last segment invalid', () {
-          expect(Translator(map, 'look.deep-key').translate(), 'look.deep-key');
+          expect(Translator(map, 'look.deep-key', locale: tLocale).translate(),
+              'look.deep-key');
         });
 
         test('given a key with first segment invalid', () {
-          expect(Translator(map, 'look-key.deep').translate(), 'look-key.deep');
+          expect(Translator(map, 'look-key.deep', locale: tLocale).translate(),
+              'look-key.deep');
         });
 
         test('given a key with extra deep segment', () {
-          expect(Translator(map, 'look.deep.deeper').translate(),
+          expect(
+              Translator(map, 'look.deep.deeper', locale: tLocale).translate(),
               'look.deep.deeper');
         });
       });
@@ -62,7 +65,8 @@ void main() {
       test('given an invalid key with default value and without fallback keys',
           () {
         expect(
-            Translator(map, 'test-key', defaultValue: 'default-value')
+            Translator(map, 'test-key',
+                    locale: tLocale, defaultValue: 'default-value')
                 .translate(),
             'default-value');
       });
@@ -70,7 +74,9 @@ void main() {
       test(
           'given an invalid key without default value and with fallback keys ( = [valid key])',
           () {
-        expect(Translator(map, 'test-key', fallbackKeys: ['key']).translate(),
+        expect(
+            Translator(map, 'test-key', locale: tLocale, fallbackKeys: ['key'])
+                .translate(),
             'value of key');
       });
 
@@ -78,8 +84,9 @@ void main() {
           'given an invalid key without default value and with fallback keys ( = [invalid key])',
           () {
         expect(
-            Translator(map, 'test-key', fallbackKeys: ['another-test-key'])
-                .translate(),
+            Translator(map, 'test-key',
+                locale: tLocale,
+                fallbackKeys: ['another-test-key']).translate(),
             'test-key');
       });
 
@@ -88,6 +95,7 @@ void main() {
           () {
         expect(
             Translator(map, 'test-key',
+                locale: tLocale,
                 fallbackKeys: ['key', 'another-test-key']).translate(),
             'value of key');
       });
@@ -97,6 +105,7 @@ void main() {
           () {
         expect(
             Translator(map, 'test-key',
+                locale: tLocale,
                 fallbackKeys: ['another-test-key', 'key']).translate(),
             'value of key');
       });
@@ -106,6 +115,7 @@ void main() {
           () {
         expect(
             Translator(map, 'test-key',
+                locale: tLocale,
                 defaultValue: 'default-value',
                 fallbackKeys: ['key']).translate(),
             'value of key');
@@ -116,6 +126,7 @@ void main() {
           () {
         expect(
             Translator(map, 'test-key',
+                locale: tLocale,
                 defaultValue: 'default-value',
                 fallbackKeys: ['another-test-key']).translate(),
             'default-value');
@@ -130,6 +141,7 @@ void main() {
             Translator(
               map,
               'key',
+              locale: tLocale,
             ).translate(),
             '{{what}} is {{how}}');
       });
@@ -139,6 +151,7 @@ void main() {
             Translator(
               map,
               'key',
+              locale: tLocale,
               params: {'test': 'value'},
             ).translate(),
             '{{what}} is {{how}}');
@@ -149,6 +162,7 @@ void main() {
             Translator(
               map,
               'key',
+              locale: tLocale,
               params: {'how': 'great'},
             ).translate(),
             '{{what}} is great');
@@ -159,6 +173,7 @@ void main() {
             Translator(
               map,
               'key',
+              locale: tLocale,
               params: {'how': 'great', 'what': 'i18next'},
             ).translate(),
             'i18next is great');
@@ -171,10 +186,11 @@ void main() {
         "key2": "{{text}} just uppercased"
       };
 
-      InterpolationOptions interpolationOptions;
-      MockFormatter mockFormatter;
+      late InterpolationOptions interpolationOptions;
+      late MockFormatter mockFormatter;
 
       setUp(() {
+        registerFallbackValue<Locale>(Locale('en'));
         mockFormatter = MockFormatter();
         interpolationOptions =
             InterpolationOptions(formatter: mockFormatter.call);
@@ -188,11 +204,11 @@ void main() {
           interpolation: interpolationOptions,
           params: {'text': 'text'},
         ).translate();
-        verifyNever(mockFormatter.call(any, any, any));
+        verifyNever(() => mockFormatter.call(any(), any(), any()));
       });
 
       test('variable has format', () {
-        when(mockFormatter.call(any, any, any)).thenReturn('test');
+        when(() => mockFormatter.call(any(), any(), any())).thenReturn('test');
         final value = DateTime.now();
         final result = Translator(
           map,
@@ -201,7 +217,7 @@ void main() {
           interpolation: interpolationOptions,
           params: {'date': value},
         ).translate();
-        verify(mockFormatter.call(value, 'MM/DD/YYYY', Locale('en')));
+        verify(() => mockFormatter.call(value, 'MM/DD/YYYY', Locale('en')));
         expect(result, 'The current date is test');
       });
     });
@@ -214,6 +230,7 @@ void main() {
             Translator(
               map,
               'key',
+              locale: Locale('en'),
             ).translate(),
             'an item');
       });
@@ -223,6 +240,7 @@ void main() {
             Translator(
               map,
               'key',
+              locale: Locale('en'),
               count: 0,
             ).translate(),
             '0 items');
@@ -233,6 +251,7 @@ void main() {
             Translator(
               map,
               'key',
+              locale: Locale('en'),
               count: 1,
             ).translate(),
             'an item');
@@ -243,6 +262,7 @@ void main() {
             Translator(
               map,
               'key',
+              locale: Locale('en'),
               count: 2,
             ).translate(),
             '2 items');
@@ -253,6 +273,7 @@ void main() {
             Translator(
               map,
               'key',
+              locale: Locale('en'),
               count: 100,
             ).translate(),
             '100 items');
@@ -263,6 +284,7 @@ void main() {
             Translator(
               map,
               'key',
+              locale: Locale('en'),
               count: 100,
               params: {'count': 200},
             ).translate(),

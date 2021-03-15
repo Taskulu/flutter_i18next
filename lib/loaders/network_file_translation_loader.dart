@@ -7,16 +7,13 @@ import 'file_translation_loader.dart';
 
 /// Loads translations from the remote resource
 class NetworkFileTranslationLoader extends FileTranslationLoader {
-  AssetBundle networkAssetBundle;
-  final Uri baseUri;
+  final AssetBundle networkAssetBundle;
 
   NetworkFileTranslationLoader(
-      {@required this.baseUri, useCountryCode = false, decodeStrategies})
-      : super(
-            useCountryCode: useCountryCode,
-            decodeStrategies: decodeStrategies) {
-    networkAssetBundle = NetworkAssetBundle(baseUri);
-  }
+      {required Uri baseUri, useCountryCode = false, decodeStrategies})
+      : networkAssetBundle = NetworkAssetBundle(baseUri),
+        super(
+            useCountryCode: useCountryCode, decodeStrategies: decodeStrategies);
 
   /// Load the file using the AssetBundle networkAssetBundle
   @override

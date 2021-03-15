@@ -5,5 +5,5 @@ abstract class TranslationLoader {
   static const String LOCALE_SEPARATOR = "_";
 
   /// Load method to implement
-  Future<Map> load(Locale locale);
+  Future<Map?> load(Locale locale);
 }

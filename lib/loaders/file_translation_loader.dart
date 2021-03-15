@@ -12,23 +12,19 @@ import 'package:flutter_i18next/loaders/translation_loader.dart';
 class FileTranslationLoader extends TranslationLoader implements IFileContent {
   final String basePath;
   final bool useCountryCode;
-  AssetBundle assetBundle = rootBundle;
+  final AssetBundle assetBundle = rootBundle;
 
-  List<BaseDecodeStrategy> _decodeStrategies;
-
-  set decodeStrategies(List<BaseDecodeStrategy> decodeStrategies) =>
-      _decodeStrategies = decodeStrategies ??
-          [JsonDecodeStrategy(), YamlDecodeStrategy(), XmlDecodeStrategy()];
+  final List<BaseDecodeStrategy> _decodeStrategies;
 
   FileTranslationLoader(
       {this.basePath = "assets/flutter_i18n",
       this.useCountryCode = false,
-      decodeStrategies}) {
-    this.decodeStrategies = decodeStrategies;
-  }
+      decodeStrategies})
+      : this._decodeStrategies = decodeStrategies ??
+            [JsonDecodeStrategy(), YamlDecodeStrategy(), XmlDecodeStrategy()];
 
   /// Return the translation Map
-  Future<Map> load(Locale locale) {
+  Future<Map?> load(Locale locale) {
     return loadFile(composeFileName(locale));
   }
 
@@ -41,13 +37,13 @@ class FileTranslationLoader extends TranslationLoader implements IFileContent {
 
   /// Load the fileName using one of the strategies provided
   @protected
-  Future<Map> loadFile(final String fileName) async {
-    final List<Future<Map>> strategiesFutures = _executeStrategies(fileName);
-    final Stream<Map> strategiesStream = Stream.fromFutures(strategiesFutures);
-    return strategiesStream.firstWhere((map) => map != null);
+  Future<Map?> loadFile(final String fileName) async {
+    final List<Future<Map?>> strategiesFutures = _executeStrategies(fileName);
+    final Stream<Map?> strategiesStream = Stream.fromFutures(strategiesFutures);
+    return strategiesStream.firstWhere((map) => map != null, orElse: () => {});
   }
 
-  List<Future<Map>> _executeStrategies(final String fileName) {
+  List<Future<Map?>> _executeStrategies(final String fileName) {
     return _decodeStrategies
         .map((decodeStrategy) => decodeStrategy.decode(fileName, this))
         .toList();

@@ -8,12 +8,12 @@ typedef FormatCallback = String Function(
 
 class InterpolationOptions {
   final String formatSeparator;
-  final FormatCallback formatter;
+  final FormatCallback? formatter;
 
   InterpolationOptions({
     this.formatter,
     this.formatSeparator = ',',
-  }) : assert(formatSeparator != null);
+  });
 
   RegExp get pattern => RegExp(
         '{{'
