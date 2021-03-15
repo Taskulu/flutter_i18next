@@ -7,18 +7,13 @@ import 'package:flutter_i18next/loaders/decoders/xml_decode_strategy.dart';
 import 'package:flutter_i18next/loaders/decoders/yaml_decode_strategy.dart';
 import 'package:flutter_i18next/loaders/file_content.dart';
 import 'package:flutter_i18next/loaders/translation_loader.dart';
-import "package:merge_map/merge_map.dart";
-
-import '../utils/message_printer.dart';
 
 /// Loads translation files from JSON, YAML or XML format
 class FileTranslationLoader extends TranslationLoader implements IFileContent {
-  final String fallbackFile;
   final String basePath;
   final bool useCountryCode;
   AssetBundle assetBundle = rootBundle;
 
-  Map<dynamic, dynamic> _decodedMap = Map();
   List<BaseDecodeStrategy> _decodeStrategies;
 
   set decodeStrategies(List<BaseDecodeStrategy> decodeStrategies) =>
@@ -26,21 +21,15 @@ class FileTranslationLoader extends TranslationLoader implements IFileContent {
           [JsonDecodeStrategy(), YamlDecodeStrategy(), XmlDecodeStrategy()];
 
   FileTranslationLoader(
-      {this.fallbackFile = "en",
-      this.basePath = "assets/flutter_i18n",
+      {this.basePath = "assets/flutter_i18n",
       this.useCountryCode = false,
-      forcedLocale,
       decodeStrategies}) {
-    this.forcedLocale = forcedLocale;
     this.decodeStrategies = decodeStrategies;
   }
 
   /// Return the translation Map
-  Future<Map> load() async {
-    _decodedMap = Map();
-    await _loadCurrentTranslation();
-    await _loadFallback();
-    return _decodedMap;
+  Future<Map> load(Locale locale) {
+    return loadFile(composeFileName(locale));
   }
 
   /// Load the file using the AssetBundle rootBundle
@@ -48,25 +37,6 @@ class FileTranslationLoader extends TranslationLoader implements IFileContent {
   Future<String> loadString(final String fileName, final String extension) {
     return assetBundle.loadString('$basePath/$fileName.$extension',
         cache: false);
-  }
-
-  Future _loadCurrentTranslation() async {
-    try {
-      this.locale = locale ?? await findDeviceLocale();
-      MessagePrinter.info("The current locale is ${this.locale}");
-      _decodedMap.addAll(await loadFile(composeFileName()));
-    } catch (e) {
-      MessagePrinter.debug('Error loading translation $e');
-    }
-  }
-
-  Future _loadFallback() async {
-    try {
-      final Map fallbackMap = await loadFile(fallbackFile);
-      _decodedMap = mergeMap([fallbackMap, _decodedMap]);
-    } catch (e) {
-      MessagePrinter.debug('Error loading translation fallback $e');
-    }
   }
 
   /// Load the fileName using one of the strategies provided
@@ -85,13 +55,13 @@ class FileTranslationLoader extends TranslationLoader implements IFileContent {
 
   /// Compose the file name using the format languageCode_countryCode
   @protected
-  String composeFileName() {
-    return "${locale.languageCode}${composeCountryCode()}";
+  String composeFileName(Locale locale) {
+    return "${locale.languageCode}${composeCountryCode(locale)}";
   }
 
   /// Return the country code to attach to the file name, if required
   @protected
-  String composeCountryCode() {
+  String composeCountryCode(Locale locale) {
     String countryCode = "";
     if (useCountryCode && locale.countryCode != null) {
       countryCode = "_${locale.countryCode}";

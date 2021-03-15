@@ -1,26 +1,18 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_i18next/loaders/translation_loader.dart';
 import 'package:flutter_i18next/utils/interpolation.dart';
-import 'package:flutter_i18next/utils/message_printer.dart';
-
 import 'flutter_i18next.dart';
 
-/// Translation delegate that manage the new locale received from the framework
-class FlutterI18nDelegate extends LocalizationsDelegate<FlutterI18n> {
-  final FlutterI18n _translationObject;
-  Locale currentLocale;
+class FlutterI18NextDelegate extends LocalizationsDelegate<FlutterI18Next> {
+  final InterpolationOptions interpolationOptions;
+  final TranslationLoader translationLoader;
+  Locale _currentLocale;
+  FlutterI18Next _lastTranslationObject;
 
-  FlutterI18nDelegate({
-    translationLoader,
-    MissingTranslationHandler missingTranslationHandler,
-    InterpolationOptions interpolationOptions,
-  }) : _translationObject = FlutterI18n(
-          translationLoader,
-          interpolationOptions: interpolationOptions,
-          missingTranslationHandler: missingTranslationHandler,
-        );
+  FlutterI18NextDelegate({
+    this.translationLoader,
+    this.interpolationOptions,
+  });
 
   @override
   bool isSupported(final Locale locale) {
@@ -28,22 +20,21 @@ class FlutterI18nDelegate extends LocalizationsDelegate<FlutterI18n> {
   }
 
   @override
-  Future<FlutterI18n> load(final Locale locale) async {
-    MessagePrinter.info("New locale: $locale");
-    final TranslationLoader translationLoader =
-        _translationObject.translationLoader;
-    if (translationLoader.locale != locale ||
-        _translationObject.decodedMap == null ||
-        _translationObject.decodedMap.isEmpty) {
-      translationLoader.locale = currentLocale = locale;
-      await _translationObject.load();
-    }
-    return _translationObject;
+  Future<FlutterI18Next> load(Locale locale) async {
+    _currentLocale = locale;
+    _lastTranslationObject?.dispose();
+    _lastTranslationObject = FlutterI18Next(
+      locale,
+      translationLoader,
+      interpolationOptions: interpolationOptions,
+    );
+    await _lastTranslationObject.load();
+    return _lastTranslationObject;
   }
 
   @override
-  bool shouldReload(final FlutterI18nDelegate old) {
-    return this.currentLocale == null ||
-        this.currentLocale == old.currentLocale;
+  bool shouldReload(final FlutterI18NextDelegate old) {
+    return this._currentLocale == null ||
+        this._currentLocale == old._currentLocale;
   }
 }

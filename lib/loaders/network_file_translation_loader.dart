@@ -11,15 +11,9 @@ class NetworkFileTranslationLoader extends FileTranslationLoader {
   final Uri baseUri;
 
   NetworkFileTranslationLoader(
-      {@required this.baseUri,
-      forcedLocale,
-      fallbackFile = "en",
-      useCountryCode = false,
-      decodeStrategies})
+      {@required this.baseUri, useCountryCode = false, decodeStrategies})
       : super(
-            fallbackFile: fallbackFile,
             useCountryCode: useCountryCode,
-            forcedLocale: forcedLocale,
             decodeStrategies: decodeStrategies) {
     networkAssetBundle = NetworkAssetBundle(baseUri);
   }

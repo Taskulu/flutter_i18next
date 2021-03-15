@@ -2,7 +2,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter/widgets.dart';
 import 'package:flutter_i18next/loaders/file_translation_loader.dart';
-import 'package:flutter_i18next/utils/message_printer.dart';
 
 /// Loads translations from separate files
 class NamespaceFileTranslationLoader extends FileTranslationLoader {
@@ -19,45 +18,26 @@ class NamespaceFileTranslationLoader extends FileTranslationLoader {
       this.fallbackDir = "en",
       this.basePath = "assets/flutter_i18n",
       this.useCountryCode = false,
-      forcedLocale,
       decodeStrategies})
       : super(
             basePath: basePath,
             useCountryCode: useCountryCode,
-            forcedLocale: forcedLocale,
             decodeStrategies: decodeStrategies) {
     assert(namespaces != null);
     assert(namespaces.length > 0);
   }
 
   /// Return the translation Map for the namespace
-  Future<Map> load() async {
-    this.locale = locale ?? await findDeviceLocale();
-    MessagePrinter.info("The current locale is ${this.locale}");
-
+  Future<Map> load(Locale locale) async {
     await Future.wait(
-        namespaces.map((namespace) => _loadTranslation(namespace)));
+        namespaces.map((namespace) => _loadTranslation(locale, namespace)));
 
     return _decodedMap;
   }
 
-  Future<void> _loadTranslation(String namespace) async {
-    _decodedMap[namespace] = Map();
-
-    try {
-      _decodedMap[namespace] =
-          await loadFile("${composeFileName()}/$namespace");
-    } catch (e) {
-      MessagePrinter.debug('Error loading translation $e');
-      await _loadTranslationFallback(namespace);
-    }
-  }
-
-  Future<void> _loadTranslationFallback(String namespace) async {
-    try {
-      _decodedMap[namespace] = await loadFile("$fallbackDir/$namespace");
-    } catch (e) {
-      MessagePrinter.debug('Error loading translation fallback $e');
-    }
+  Future<void> _loadTranslation(Locale locale, String namespace) async {
+    _decodedMap[namespace] = {};
+    _decodedMap[namespace] =
+        await loadFile("${composeFileName(locale)}/$namespace");
   }
 }
