@@ -1,8 +1,5 @@
 import 'dart:async';
-
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
-
 import 'file_translation_loader.dart';
 
 /// Loads translations from the remote resource

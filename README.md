@@ -1,13 +1,15 @@
 # flutter_i18next
 A package to bring [i18next](https://www.i18next.com) support for Flutter! This is heavily based on [flutter_i18n](https://github.com/ilteoood/flutter_i18n) but with lots of modification and simplifications.
 
+![pub package](https://img.shields.io/pub/v/flutter_i18next.svg)
+
 ## Usage
 
 First, Add `flutter_i18next` to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  flutter_i18next: ^0.2.0
+  flutter_i18next: ^0.3.0
 ```
 
 Next, Add an instance of `I18NextDelegate` to your app's `localizationsDelegates`:

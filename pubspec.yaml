@@ -1,6 +1,6 @@
 name: flutter_i18next
-description: i18next for Flutter.
-version: 0.2.0
+description: An internationalization package for Flutter using i18next standards.
+version: 0.3.0
 homepage: https://github.com/Taskulu/flutter_i18next
 
 dependencies:
@@ -8,7 +8,7 @@ dependencies:
     sdk: flutter
   yaml: ^3.1.0
   xml2json: ^5.0.0
-  path: ^1.8.0
+  universal_io: ^2.0.1
 
 dev_dependencies:
   flutter_test:
